@@ -1,0 +1,33 @@
+
+
+<!--Ajoutons deux éléments à notre composant tousList, une case à cocher et un bouton de suppression:!-->
+<header>
+  <h1>Todo List  ( {{$ctrl.incompleteCount}} )</h1>
+  <label class="hide-completed">
+    <input type="checkbox" ng-model="$ctrl.hideCompleted"/>
+    Hide Completed Tasks
+  </label>
+<login-buttons></login-buttons>
+<!--dans l'html on ajoute une directive ng-show pour afficer uniquement le formulaire lorsqu'il existe un utilisateur connecté!-->
+    <form class="new-task" ng-submit="$ctrl.addTask($ctrl.newTask)" ng-show="$ctrl.currentUser">
+      <input ng-model="$ctrl.newTask" type="text" name="text" placeholder="Type to add new tasks"/>
+    </form>
+</header>
+
+<ul>
+<li ng-class="{'checked': task.checked}">
+  <li ng-repeat="task in $ctrl.tasks" ng-class="{'checked': task.checked, 'private': task.private}">
+    <button class="delete" ng-click="$ctrl.removeTask(task)">&times;</button>
+    <input type="checkbox" ng-checked="task.checked" ng-click="$ctrl.setChecked(task)" class="toggle-checked"/>
+    <!-- on ajoute une déclaration pour afficher le champ de nom d'utilisateur sur chaque tâche juste avant le texte!-->
+    <span class="text">
+     <strong>{{task.username}}</strong> - {{task.text}}
+    </span>
+
+    <!--on va ajouter une autre propriété aux tâches privées et un bouton permettant aux utilisateurs de marquer une tâche comme privé ;
+    bouton ne devant apparaître que pour le propriétaire d'une tâche!-->
+    <button class="toggle-private" ng-click="$ctrl.setPrivate(task)" ng-show="task.owner === $ctrl.currentUser._id">
+    {{task.private == true? "Private" : "Public"}}
+    </button>
+  </li>
+</ul>
