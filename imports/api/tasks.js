@@ -38,12 +38,25 @@ Meteor.methods({
         },
     'tasks.remove' (taskId) {
         check(taskId, String);
+        //Sécurité de méthode supplémentaire
+
+        //Afin de terminer notre fonctionnalité de tâche privée, nous devons ajouter des vérifications à nos méthodes
+        //deleteTask et setChecked pour s'assurer que seul le propriétaire de la tâche peut supprimer ou vérifier une tâche privée:
+        const task = Tasks.findOne(taskId);
+        if (task.private && task.owner !==Meteor.userId()) {
+            throw new Meteor.Error ('not-authorized');
+        }
 
         Tasks.remove(taskId);
     },
     'tasks.setChecked' (taskId, setChecked) {
         check (taskId, String);
         check(setChecked, Boolean);
+        const task = Tasks.findOne(taskId);
+        if (task.private && task.owner !== Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+        //avec ce code, n'importe qui peut supprimer toute tâche publique.
         Tasks.update(taskId, {
             $set:{
                 checked: setChecked
