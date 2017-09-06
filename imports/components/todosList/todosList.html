@@ -1,6 +1,5 @@
-
-
 <!--Ajoutons deux éléments à notre composant tousList, une case à cocher et un bouton de suppression:!-->
+
 <header>
   <h1>Todo List  ( {{$ctrl.incompleteCount}} )</h1>
   <label class="hide-completed">
@@ -8,6 +7,7 @@
     Hide Completed Tasks
   </label>
 <login-buttons></login-buttons>
+
 <!--dans l'html on ajoute une directive ng-show pour afficer uniquement le formulaire lorsqu'il existe un utilisateur connecté!-->
 
     <form class="new-task" ng-submit="$ctrl.addTask($ctrl.newTask)" ng-show="$ctrl.currentUser">
